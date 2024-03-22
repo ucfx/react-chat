@@ -1,4 +1,4 @@
-const Conversation = require("../models/conversation.mode");
+const Conversation = require("../models/conversation.model");
 const Message = require("../models/message.model");
 
 const sendMessage = async (req, res) => {
@@ -30,7 +30,7 @@ const sendMessage = async (req, res) => {
       await conversation.save();
     }
 
-    res.status(201).json({ message: "Message sent", newMessage });
+    res.status(201).json(newMessage);
   } catch (error) {
     console.error("Error on sendMessage: ", error.message || error);
     res.status(500).json({ message: "Internal server error" });
