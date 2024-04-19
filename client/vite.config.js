@@ -9,9 +9,20 @@ export default defineConfig({
       components: "/src/components",
       pages: "/src/pages",
       hooks: "/src/hooks",
-      styles: "/src/styles",
       assets: "/src/assets",
-      data: "/src/data",
+      constants: "/src/constants",
+      stores: "/src/stores",
+      utils: "/src/utils",
+      context: "/src/context",
+    },
+  },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
     },
   },
 });

@@ -11,19 +11,20 @@ const protectRoute = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("Decoded: ", decoded);
     if (!decoded) {
       return res.status(401).json({ message: "Unauthorized - Invalid Token" });
     }
 
-    const user = await User.findById(decoded._id).select("-password");
+    const user = await User.findById(decoded._id).select(
+      "-password -__v -gender"
+    );
 
     if (!user) {
       return res.status(401).json({ message: "Unauthorized - Invalid User" });
     }
 
     req.user = user;
-    console.log("User authenticated: ", user);
+    // console.log("User authenticated0: ", user);
     next();
   } catch (error) {
     console.error("Error on protectRoute: ", error.message || error);
