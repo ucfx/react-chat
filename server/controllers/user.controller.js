@@ -6,8 +6,8 @@ const getUsers = async (req, res) => {
     const conversations = await Conversation.find({
       members: currentUserId,
     })
-      .sort({ updatedAt: -1 })
-      .populate("members");
+      .populate("members")
+      .populate("messages");
 
     const users = conversations
       .map((conversation) => {
@@ -16,7 +16,11 @@ const getUsers = async (req, res) => {
         );
         if (otherUser) {
           const { password, ...userWithoutPassword } = otherUser.toObject();
-          return userWithoutPassword;
+          return {
+            ...userWithoutPassword,
+            lastMessage:
+              conversation.messages[conversation.messages.length - 1],
+          };
         }
       })
       .filter(Boolean);
@@ -28,23 +32,43 @@ const getUsers = async (req, res) => {
   }
 };
 
-const getUserByUsername = async (req, res) => {
+const isAvailable = async (req, res) => {
+  console.log("availabl");
   try {
     const { username } = req.params;
     const user = await User.findOne({ username }).select("-password");
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(200).json({
+        available: true,
+      });
     }
 
-    res.status(200).json(user);
+    res.status(200).json({
+      available: false,
+    });
   } catch (error) {
     console.log("Error on getUserByUsername: ", error.message || error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
 
+const searchUsers = async (req, res) => {
+  try {
+    const { q: username } = req.params;
+    const users = await User.find({
+      username: { $regex: username, $options: "i" },
+    }).select("-password");
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.log("Error on searchUsers: ", error.message || error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 module.exports = {
   getUsers,
-  getUserByUsername,
+  isAvailable,
+  searchUsers,
 };
