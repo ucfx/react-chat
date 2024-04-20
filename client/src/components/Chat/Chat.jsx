@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import useConversationsStore from "stores/ConversationsStore";
 import Loader from "components/Loader";
 import ChatHeader from "./ChatHeader";

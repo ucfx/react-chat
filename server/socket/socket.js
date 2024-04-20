@@ -1,4 +1,5 @@
 const Conversation = require("../models/conversation.model");
+const Message = require("../models/message.model");
 
 const { Server } = require("socket.io");
 const http = require("http");
@@ -29,6 +30,22 @@ io.on("connection", async (socket) => {
 
   Object.keys(onlineUsers).forEach((uId) => {
     socket.to(onlineUsers[uId]).emit("online", userId);
+  });
+
+  socket.on("readMessage", async (messageId, from, to) => {
+    console.log("readMessage", messageId, from, to);
+    await Message.findByIdAndUpdate(messageId, { read: true }, { new: true });
+
+    const fromSocketId = getSocketId(from);
+    const toSocketId = getSocketId(to);
+
+    if (fromSocketId) {
+      io.to(fromSocketId).emit("readMessage", messageId, to, true);
+    }
+
+    if (toSocketId) {
+      io.to(toSocketId).emit("readMessage", messageId, from);
+    }
   });
 
   socket.on("disconnect", () => {

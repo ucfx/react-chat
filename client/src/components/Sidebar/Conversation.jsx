@@ -36,7 +36,7 @@ const Conversation = ({ conversation }) => {
           <span
             className={`inline-block indicator-item indicator-start ${
               onlineUsers[conversation._id] ? "badge badge-primary" : ""
-            } h-3 w-3 p-0 `}
+            } h-3 w-3 p-0 z-0`}
           ></span>
           <div className="grid place-items-center">
             <img
@@ -46,11 +46,22 @@ const Conversation = ({ conversation }) => {
             />
           </div>
         </div>
-        <div className="ml-2">
-          <p className="font-semibold">{conversation?.fullName}</p>
-          <p className="text-xs text-gray-500">
-            {conversation?.lastMessage?.message || `@${conversation.username}`}
-          </p>
+        <div className="indicator flex-1">
+          <span
+            className={`indicator-item indicator-end indicator-middle ${
+              conversation.unreadMessagesCount > 0 ? "badge badge-primary" : ""
+            } min-w-5 p-1 mr-2`}
+          >
+            {conversation.unreadMessagesCount > 0 &&
+              conversation.unreadMessagesCount}
+          </span>
+          <div className="ml-2">
+            <p className="font-semibold">{conversation?.fullName}</p>
+            <p className="text-xs text-gray-500">
+              {conversation?.lastMessage?.message ||
+                `@${conversation.username}`}
+            </p>
+          </div>
         </div>
       </div>
     </div>

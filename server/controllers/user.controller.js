@@ -20,6 +20,11 @@ const getUsers = async (req, res) => {
             ...userWithoutPassword,
             lastMessage:
               conversation.messages[conversation.messages.length - 1],
+            unreadMessagesCount: conversation.messages.filter(
+              (message) =>
+                message.receiver.toString() === currentUserId.toString() &&
+                !message.read
+            ).length,
           };
         }
       })
