@@ -7,7 +7,8 @@ const ConversationsStore = create((set) => ({
     set({ selectedConversation: conversation });
   },
   messages: {},
-  loading: false,
+  loading: true,
+  conversationsLoading: true,
   setMessages: (messages) => {
     console.log("setMessges function in conversation store");
     set({ messages });
@@ -31,10 +32,65 @@ const ConversationsStore = create((set) => ({
         updatedConversations[conversationIndex] = {
           ...updatedConversations[conversationIndex],
           lastMessage: message,
+          unreadMessagesCount:
+            state.selectedConversation._id === senderId
+              ? 0
+              : updatedConversations[conversationIndex].unreadMessagesCount + 1,
         };
         return { conversations: updatedConversations };
       } else {
         ConversationsStore.getState().getConversations();
+        return state;
+      }
+    });
+  },
+  readMessage: (messageId, conversationId) => {
+    set((state) => {
+      if (messageId === null) return state;
+
+      const conversationMessages = state.messages[conversationId];
+      console.log(state.messages, conversationMessages);
+      let messageIndex = null;
+      for (let i = conversationMessages.length - 1; i >= 0; i--) {
+        console.log(conversationMessages[i]._id.toString(), messageId);
+        if (conversationMessages[i]._id.toString() === messageId) {
+          messageIndex = i;
+          break;
+        }
+      }
+      if (messageIndex !== null) {
+        const updatedMessages = [...conversationMessages];
+        updatedMessages[messageIndex] = {
+          ...updatedMessages[messageIndex],
+          read: true,
+        };
+        return {
+          messages: {
+            ...state.messages,
+            [conversationId]: updatedMessages,
+          },
+        };
+      } else {
+        return state;
+      }
+    });
+    set((state) => {
+      const conversationIndex = state.conversations.findIndex((c) => {
+        return c._id === conversationId;
+      });
+      if (conversationIndex !== -1) {
+        const updatedConversations = [...state.conversations];
+        updatedConversations[conversationIndex] = {
+          ...updatedConversations[conversationIndex],
+          unreadMessagesCount: updatedConversations[conversationIndex]
+            .unreadMessagesCount
+            ? updatedConversations[conversationIndex].unreadMessagesCount - 1
+            : 0,
+        };
+        return {
+          conversations: updatedConversations,
+        };
+      } else {
         return state;
       }
     });
@@ -64,6 +120,7 @@ const ConversationsStore = create((set) => ({
     }
   },
   getConversations: async () => {
+    ConversationsStore.setState({ conversationsLoading: true });
     const user = useAuthStore.getState().user;
     if (!user) {
       console.error("No user found in authStore");
@@ -79,6 +136,8 @@ const ConversationsStore = create((set) => ({
       }
     } catch (error) {
       console.error("Failed to fetch conversations:", error);
+    } finally {
+      ConversationsStore.setState({ conversationsLoading: false });
     }
   },
   resetConversations: () => set({ conversations: [] }),

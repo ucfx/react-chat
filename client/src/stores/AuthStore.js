@@ -15,10 +15,11 @@ export const useAuthStore = create((set) => ({
         console.log(data);
         useAuthStore.setState({ user: null });
       }
-      useAuthStore.setState({ loading: false });
       console.log(useAuthStore.getState());
     } catch (error) {
       console.log("Auth Error :", error.message || error);
+    } finally {
+      useAuthStore.setState({ loading: false });
     }
   },
 }));

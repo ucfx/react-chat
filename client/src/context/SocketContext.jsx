@@ -9,6 +9,7 @@ export const SocketProvider = ({ children }) => {
   const [onlineUsers, setOnlineUsers] = useState({});
 
   const pushMessage = useConversationsStore((state) => state.pushMessage);
+  const readMessage = useConversationsStore((state) => state.readMessage);
 
   const authUser = useAuthStore((state) => state.user);
   useEffect(() => {
@@ -44,13 +45,19 @@ export const SocketProvider = ({ children }) => {
         });
       });
 
-      socket.on("newMessage", (newMessage, senderId) => {
+      socket.on("newMessage", (newMessage, senderId, isMe) => {
         console.log("newmesssage: senderUsername", newMessage, senderId);
         pushMessage(newMessage, senderId);
-        setOnlineUsers((prev) => ({
-          ...prev,
-          [senderId]: true,
-        }));
+        // if (isMe) {
+        // setOnlineUsers((prev) => ({
+        //   ...prev,
+        //   [senderId]: true,
+        // }));
+        // }
+      });
+
+      socket.on("readMessage", (messageId, conversationsId, isMe) => {
+        readMessage(isMe ? messageId : messageId, conversationsId);
       });
 
       return () => socket.close();

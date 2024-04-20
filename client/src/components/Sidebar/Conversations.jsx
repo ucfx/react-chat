@@ -2,8 +2,13 @@ import { useEffect } from "react";
 import Conversation from "./Conversation";
 import useConversationsStore from "stores/ConversationsStore";
 import NoConversations from "./NoConversations";
+import Loader from "components/Loader";
+
 const Conversations = () => {
   const conversations = useConversationsStore((state) => state.conversations);
+  const conversationsLoading = useConversationsStore(
+    (state) => state.conversationsLoading
+  );
   const getConversations = useConversationsStore(
     (state) => state.getConversations
   );
@@ -23,8 +28,9 @@ const Conversations = () => {
       {sortedConversations.map((conversation) => (
         <Conversation key={conversation._id} conversation={conversation} />
       ))}
-
-      {conversations.length === 0 && <NoConversations />}
+      {!conversationsLoading && conversations.length === 0 && (
+        <NoConversations />
+      )}
     </div>
   );
 };

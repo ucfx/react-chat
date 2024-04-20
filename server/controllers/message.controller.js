@@ -35,11 +35,13 @@ const sendMessage = async (req, res) => {
 
       if (receiverSocketId) {
         io.to(receiverSocketId).emit("newMessage", newMessage, sender);
-      }
-
-      if (senderSocketId) {
         io.to(senderSocketId).emit("online", receiver);
       }
+
+      //   if (senderSocketId) {
+      //     console.log("senderSocketId", senderSocketId, receiver);
+      //     io.to(senderSocketId).emit("online", receiver);
+      //   }
 
       res.status(201).json(newMessage);
     } else {
