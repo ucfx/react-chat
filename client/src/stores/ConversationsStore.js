@@ -3,14 +3,13 @@ import useAuthStore from "./AuthStore";
 const ConversationsStore = create((set) => ({
   conversations: [],
   selectedConversation: null,
-  setSelectedConversation: (conversation) => {
-    set({ selectedConversation: conversation });
-  },
   messages: {},
   loading: true,
   conversationsLoading: true,
+  setSelectedConversation: (conversation) => {
+    set({ selectedConversation: conversation });
+  },
   setMessages: (messages) => {
-    console.log("setMessges function in conversation store");
     set({ messages });
   },
   pushMessage: (message, senderId) => {
@@ -26,7 +25,6 @@ const ConversationsStore = create((set) => ({
         return c._id === senderId;
       });
 
-      console.log("conversationIndex", conversationIndex);
       if (conversationIndex !== -1) {
         const updatedConversations = [...state.conversations];
         updatedConversations[conversationIndex] = {
@@ -44,15 +42,13 @@ const ConversationsStore = create((set) => ({
       }
     });
   },
-  readMessage: (messageId, conversationId) => {
+  readMessage: (messageId, conversationId, time) => {
     set((state) => {
       if (messageId === null) return state;
 
       const conversationMessages = state.messages[conversationId];
-      console.log(state.messages, conversationMessages);
       let messageIndex = null;
       for (let i = conversationMessages.length - 1; i >= 0; i--) {
-        console.log(conversationMessages[i]._id.toString(), messageId);
         if (conversationMessages[i]._id.toString() === messageId) {
           messageIndex = i;
           break;
@@ -63,6 +59,7 @@ const ConversationsStore = create((set) => ({
         updatedMessages[messageIndex] = {
           ...updatedMessages[messageIndex],
           read: true,
+          updatedAt: time,
         };
         return {
           messages: {
@@ -116,7 +113,6 @@ const ConversationsStore = create((set) => ({
       console.error("Failed to fetch messages:", error);
     } finally {
       ConversationsStore.setState({ loading: false });
-      console.log("donee");
     }
   },
   getConversations: async () => {
@@ -130,7 +126,6 @@ const ConversationsStore = create((set) => ({
     try {
       const response = await fetch(`/api/users`);
       const data = await response.json();
-      console.log(data);
       if (data) {
         set({ conversations: data });
       }

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import useConversationsStore from "stores/ConversationsStore";
 import Loader from "components/Loader";
 import ChatHeader from "./ChatHeader";
@@ -10,7 +10,6 @@ const Chat = () => {
 
   useEffect(() => {
     if (selectedConversation) {
-      console.log("fetching messages");
       getMessages();
     }
     return () => {

@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { extractTime } from "utils/extractTime";
 import useVisibility from "hooks/useVisibility";
 

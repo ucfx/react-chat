@@ -45,19 +45,12 @@ export const SocketProvider = ({ children }) => {
         });
       });
 
-      socket.on("newMessage", (newMessage, senderId, isMe) => {
-        console.log("newmesssage: senderUsername", newMessage, senderId);
+      socket.on("newMessage", (newMessage, senderId) => {
         pushMessage(newMessage, senderId);
-        // if (isMe) {
-        // setOnlineUsers((prev) => ({
-        //   ...prev,
-        //   [senderId]: true,
-        // }));
-        // }
       });
 
-      socket.on("readMessage", (messageId, conversationsId, isMe) => {
-        readMessage(isMe ? messageId : messageId, conversationsId);
+      socket.on("readMessage", (messageId, conversationsId, time) => {
+        readMessage(messageId, conversationsId, time);
       });
 
       return () => socket.close();

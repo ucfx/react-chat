@@ -7,6 +7,7 @@ const InputMessage = () => {
     e.preventDefault();
     sendMessage(message);
     setMessage("");
+    e.target.children[0].focus();
   };
 
   return (

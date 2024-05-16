@@ -1,13 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import useConversationsStore from "stores/ConversationsStore";
 const ChatHeader = () => {
   const conversation = useConversationsStore(
     (state) => state.selectedConversation
   );
 
-  useEffect(() => {
-    console.log(conversation);
-  }, [conversation]);
   return (
     <>
       {conversation && (

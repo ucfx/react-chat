@@ -11,7 +11,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173", "http://192.168.43.24:5173"],
+    origin: ["http://localhost:5173"],
   },
 });
 
@@ -34,24 +34,26 @@ io.on("connection", async (socket) => {
 
   socket.on("readMessage", async (messageId, from, to) => {
     console.log("readMessage", messageId, from, to);
-    await Message.findByIdAndUpdate(messageId, { read: true }, { new: true });
+    const msg = await Message.findByIdAndUpdate(
+      messageId,
+      { read: true },
+      { new: true }
+    );
 
-    const fromSocketId = getSocketId(from);
     const toSocketId = getSocketId(to);
 
-    if (fromSocketId) {
-      io.to(fromSocketId).emit("readMessage", messageId, to, true);
-    }
-
     if (toSocketId) {
-      io.to(toSocketId).emit("readMessage", messageId, from);
+      io.to(toSocketId).emit("readMessage", messageId, from, msg.updatedAt);
     }
   });
 
-  socket.on("disconnect", () => {
+  socket.on("disconnect", async () => {
     console.log("userdisconnected", socket.id);
     delete usersSocketMap[userId];
-    io.emit("disconnectUser", userId);
+    const onlineUsers = await getOnlineFriends(userId);
+    Object.keys(onlineUsers).forEach((uId) => {
+      socket.to(onlineUsers[uId]).emit("disconnectUser", userId);
+    });
   });
 });
 

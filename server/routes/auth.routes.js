@@ -9,7 +9,6 @@ router.post("/logout", logout);
 
 router.get("/", protectRoute, (req, res) => {
   if (req.user) {
-    // console.log("User authenticated: ", req.user);
     return res.status(200).json({ user: req.user });
   } else {
     return res.status(400).json({ message: "User not found" });

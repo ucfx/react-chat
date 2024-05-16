@@ -26,6 +26,4 @@ const useThemeStore = create(
 );
 updateTheme();
 
-console.log(useThemeStore.getState().theme);
-
 export default useThemeStore;
