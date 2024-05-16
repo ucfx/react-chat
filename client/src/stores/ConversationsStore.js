@@ -31,7 +31,7 @@ const ConversationsStore = create((set) => ({
           ...updatedConversations[conversationIndex],
           lastMessage: message,
           unreadMessagesCount:
-            state.selectedConversation._id === senderId
+            state.selectedConversation?._id === senderId
               ? 0
               : updatedConversations[conversationIndex].unreadMessagesCount + 1,
         };
