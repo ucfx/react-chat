@@ -23,7 +23,7 @@ const Login = () => {
         <ToggleTheme />
       </span>
       <form
-        onSubmit={handleSubmit(onSubmit, onError)}
+        onSubmit={handleSubmit(onSubmit)}
         className="p-8 rounded shadow-xxl w-96"
       >
         <h1 className="mb-6 text-4xl text-center">Login</h1>

@@ -86,7 +86,7 @@ const Signup = () => {
       />
       <form
         className="p-8 rounded shadow-xxl w-96"
-        onSubmit={handleSubmit(onSubmit, onError)}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <h1 className="mb-6 text-4xl text-center">Sign Up</h1>
 
