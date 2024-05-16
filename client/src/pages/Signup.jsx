@@ -50,9 +50,7 @@ const Signup = () => {
 
   const onSubmit = async (data) => {
     setDisableButton(true);
-    console.log(data);
     await signup(data);
-    console.log("done");
     setDisableButton(false);
   };
 
@@ -70,10 +68,6 @@ const Signup = () => {
         break;
     }
   }, [err]);
-
-  const onError = () => {
-    console.log(errors);
-  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">

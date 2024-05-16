@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import useAuthStore from "stores/AuthStore";
 import useConversationsStore from "stores/ConversationsStore";
 import Message from "./Message";
@@ -10,7 +10,6 @@ const Messages = () => {
 
   useEffect(() => {
     if (lastMessageRef.current) {
-      console.log("scrolling into view");
       lastMessageRef.current.scrollIntoView({
         block: "nearest",
       });

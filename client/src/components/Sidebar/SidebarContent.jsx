@@ -1,7 +1,5 @@
 import Conversations from "./Conversations";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
-import useConversationsStore from "stores/ConversationsStore";
 import useSearchStore from "stores/SearchStore";
 import SearchConversations from "./SearchConversations";
 const SidebarContent = () => {

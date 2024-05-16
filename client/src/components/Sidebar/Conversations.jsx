@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import Conversation from "./Conversation";
 import useConversationsStore from "stores/ConversationsStore";
 import NoConversations from "./NoConversations";
-import Loader from "components/Loader";
 
 const Conversations = () => {
   const conversations = useConversationsStore((state) => state.conversations);

@@ -10,6 +10,7 @@ const useVisibility = (targetRef, messageId, readed, sender) => {
   const selectedConversation = useConversationsStore(
     (_) => _.selectedConversation
   );
+  const readMessage = useConversationsStore((state) => state.readMessage);
 
   const { socket } = useSocket();
 
@@ -28,18 +29,13 @@ const useVisibility = (targetRef, messageId, readed, sender) => {
     observer.current = new IntersectionObserver(([entry]) => {
       console.log(entry.intersectionRatio);
       if (entry.isIntersecting) {
-        console.log(
-          "readMessage",
-          messageId,
-          authUser._id,
-          selectedConversation._id
-        );
         socket.emit(
           "readMessage",
           messageId,
           authUser._id,
           selectedConversation._id
         );
+        readMessage(messageId, selectedConversation._id);
       }
     }, observerOptions);
 

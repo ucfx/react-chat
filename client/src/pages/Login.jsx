@@ -14,11 +14,7 @@ const Login = () => {
   const { login, errors: err } = useLogin();
 
   const onSubmit = (data) => {
-    console.log(data);
     login(data);
-  };
-  const onError = () => {
-    console.log(errors);
   };
 
   return (

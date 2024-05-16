@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import SearchInput from "./SearchInput";
-import { useNavigate } from "react-router-dom";
 import Dropmenu from "components/Dropmenu";
 import useSearchStore from "stores/SearchStore";
 
