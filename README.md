@@ -47,7 +47,7 @@ This is a simple real-time chat application that allows you to chat with others 
 6. Open another terminal, navigate to the project directory, and start the server:
 
    ```
-   cd server && npm start
+   cd server && npm run dev
    ```
 
 7. Open your browser and visit http://localhost:5173.
