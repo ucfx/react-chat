@@ -1,4 +1,5 @@
 require("dotenv").config();
+const path = require("path");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -15,17 +16,19 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: ["https://react-chat-kk8v.onrender.com"],
   })
 );
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+app.use(express.static(path.join(__dirname, "..", "client", "dist")));
 
-app.use("/auth", authRoutes);
-app.use("/messages", messageRoutes);
-app.use("/users", userRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
+app.use("/api/users", userRoutes);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "client", "dist", "index.html"));
+});
 
 try {
   mongoose.connect(process.env.MONGO_URI);

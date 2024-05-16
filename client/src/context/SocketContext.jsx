@@ -14,7 +14,7 @@ export const SocketProvider = ({ children }) => {
   const authUser = useAuthStore((state) => state.user);
   useEffect(() => {
     if (authUser) {
-      const socket = io("http://localhost:5000", {
+      const socket = io("https://react-chat-kk8v.onrender.com", {
         query: {
           userId: authUser._id,
         },
