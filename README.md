@@ -54,6 +54,11 @@ This is a simple real-time chat application that allows you to chat with others 
 
 8. Start chatting in real-time! :wink:
 
+## :link: Demo
+
+-   <a target="_blank" href="https://react-chat-kk8v.onrender.com/"> Click Here </a> to try out a demo of the app.
+
+
 ## :handshake: Contributing
 
 Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
