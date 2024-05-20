@@ -56,8 +56,13 @@ This is a simple real-time chat application that allows you to chat with others 
 
 ## :link: Demo
 
--   <a target="_blank" href="https://react-chat-kk8v.onrender.com/"> Click Here </a> to try out a demo of the app.
+- <a target="_blank" href="https://react-chat-kk8v.onrender.com/"> Click Here </a> to try out a demo of the app.
 
+## 🖼️ Screenshots
+
+![Login](screenshots/login.png)
+![Login](screenshots/signup.png)
+![Login](screenshots/chat.png)
 
 ## :handshake: Contributing
 
