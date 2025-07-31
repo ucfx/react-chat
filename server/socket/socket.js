@@ -11,7 +11,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["https://react-chat-kk8v.onrender.com"],
+    origin: ["https://react-chat-kk8v.onrender.com", "https://chat.ucef.dev"],
   },
 });
 

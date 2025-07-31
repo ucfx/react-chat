@@ -14,7 +14,7 @@ export const SocketProvider = ({ children }) => {
   const authUser = useAuthStore((state) => state.user);
   useEffect(() => {
     if (authUser) {
-      const socket = io("https://react-chat-kk8v.onrender.com", {
+      const socket = io(window.location.origin, {
         query: {
           userId: authUser._id,
         },
@@ -63,8 +63,6 @@ export const SocketProvider = ({ children }) => {
   }, [authUser]);
 
   return (
-    <SocketContext.Provider value={{ socket, onlineUsers }}>
-      {children}
-    </SocketContext.Provider>
+    <SocketContext.Provider value={{ socket, onlineUsers }}>{children}</SocketContext.Provider>
   );
 };
